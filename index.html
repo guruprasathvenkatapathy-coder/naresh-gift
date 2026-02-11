@@ -87,7 +87,7 @@ button:hover{background:#ffdce5;}
     transform:scale(1.05);
 }
 
-/* Image Popup */
+/* Popup */
 .modal{
     position:fixed;
     top:0; left:0;
@@ -118,7 +118,7 @@ button:hover{background:#ffdce5;}
     cursor:pointer;
 }
 
-/* Song Page */
+/* Song */
 .song-img{
     width:150px;
     height:150px;
@@ -129,23 +129,18 @@ button:hover{background:#ffdce5;}
     box-shadow:0 0 20px rgba(255,255,255,0.3);
 }
 
-.song-buttons{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-}
-
 .circle-btn{
-    width:60px;
-    height:60px;
+    width:70px;
+    height:70px;
     border-radius:50%;
     background:#ff2e63;
     display:flex;
     justify-content:center;
     align-items:center;
     cursor:pointer;
-    font-size:22px;
-    box-shadow:0 0 15px rgba(255,0,100,0.6);
+    font-size:28px;
+    margin:15px auto;
+    box-shadow:0 0 20px rgba(255,0,100,0.6);
 }
 
 /* Video */
@@ -177,16 +172,13 @@ input{
     <button onclick="next(1)">Next ➜</button>
 </div>
 
-<!-- PAGE 2 - PHOTOS -->
+<!-- PAGE 2 -->
 <div class="card hidden" id="page2">
     <h2>Our Beautiful Memories 💖</h2>
     <div class="collage">
-        <img src="photo1.jpeg" onclick="openModal(this.src)">
-        <img src="photo2.jpeg" onclick="openModal(this.src)">
-        <img src="photo3.jpeg" onclick="openModal(this.src)">
-        <img src="photo4.jpeg" onclick="openModal(this.src)">
-        <img src="photo5.jpg" onclick="openModal(this.src)">
-        <img src="photo6.jpg" onclick="openModal(this.src)">
+        <img src="photo4.jpg" onclick="openModal(this.src)">
+        <img src="photo2.jpg" onclick="openModal(this.src)">
+        <img src="photo3.jpg" onclick="openModal(this.src)">
     </div>
     <button onclick="next(2)">Next ➜</button>
 </div>
@@ -198,15 +190,12 @@ input{
 
     <img src="album.jpg" class="song-img">
 
-    <div class="song-buttons">
-        <div class="circle-btn" onclick="playSong()">▶</div>
-        <div class="circle-btn" onclick="pauseSong()">⏸</div>
-    </div>
+    <div class="circle-btn" onclick="toggleSong()" id="playBtn">▶</div>
 
     <button onclick="next(3)">Next ➜</button>
 </div>
 
-<!-- PAGE 4 - QUIZ -->
+<!-- PAGE 4 -->
 <div class="card hidden" id="page4">
     <h2>Solve this to get a special gift 💗</h2>
     <p>What is 5 + 5 ?</p>
@@ -215,7 +204,7 @@ input{
     <button onclick="checkAnswer()">Unlock 💌</button>
 </div>
 
-<!-- PAGE 5 - FINAL -->
+<!-- PAGE 5 -->
 <div class="card hidden" id="page5">
     <h2>💖 Surprise! 💖</h2>
 
@@ -236,7 +225,7 @@ input{
 
 <!-- AUDIO -->
 <audio id="song">
-    <source src="yoursong.mp3" type="audio/mpeg">
+    <source src="audio.webm" type="audio/mpeg">
 </audio>
 
 <script>
@@ -261,14 +250,20 @@ function closeModal(){
     document.getElementById("modal").classList.remove("active");
 }
 
-function playSong(){
-    document.getElementById("song").play();
-}
-function pauseSong(){
-    document.getElementById("song").pause();
+/* SINGLE TOGGLE BUTTON */
+function toggleSong(){
+    var song = document.getElementById("song");
+    var btn = document.getElementById("playBtn");
+
+    if(song.paused){
+        song.play();
+        btn.innerHTML = "⏸";
+    }else{
+        song.pause();
+        btn.innerHTML = "▶";
+    }
 }
 </script>
 
 </body>
 </html>
-
