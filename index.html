@@ -20,17 +20,33 @@ html, body{
     overflow:hidden;
 }
 
+/* Base Body */
 body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background-image:url(photo1.jpeg);
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
     position:fixed;
     inset:0;
     color:white;
+}
+
+/* Fixed Background Layer */
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:url(photo1.jpeg); /* PC Background */
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    z-index:-2;
+}
+
+/* Mobile Background */
+@media (max-width:768px){
+    body::after{
+        background-image:url(photo2.jpeg);
+    }
 }
 
 /* Floating Hearts */
@@ -39,9 +55,10 @@ body::before{
     position:absolute;
     width:200%;
     height:200%;
-    font-size:30px;
-    opacity:0.07;
+    font-size:28px;
+    opacity:0.06;
     animation:move 30s linear infinite;
+    z-index:-1;
 }
 @keyframes move{
     0%{transform:translateY(0);}
@@ -50,14 +67,12 @@ body::before{
 
 /* Card */
 .card{
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.65);
     backdrop-filter:blur(10px);
     padding:30px;
     border-radius:20px;
     width:90%;
     max-width:380px;
-    max-height:90vh;
-    overflow:hidden;
     text-align:center;
     box-shadow:0 0 30px rgba(0,0,0,0.5);
     animation:fadeIn 0.6s ease;
@@ -82,6 +97,7 @@ button{
 }
 button:hover{background:#ffdce5;}
 
+/* Collage */
 .collage{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -104,8 +120,7 @@ button:hover{background:#ffdce5;}
 /* Popup */
 .modal{
     position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
+    inset:0;
     background:rgba(0,0,0,0.9);
     display:flex;
     justify-content:center;
@@ -140,7 +155,6 @@ button:hover{background:#ffdce5;}
     object-fit:cover;
     margin:20px auto;
     display:block;
-    box-shadow:0 0 20px rgba(255,255,255,0.3);
 }
 
 .circle-btn{
@@ -154,7 +168,6 @@ button:hover{background:#ffdce5;}
     cursor:pointer;
     font-size:26px;
     margin:15px auto;
-    box-shadow:0 0 20px rgba(255,0,100,0.6);
 }
 
 /* Video */
@@ -163,7 +176,6 @@ button:hover{background:#ffdce5;}
     max-width:260px;
     border-radius:15px;
     margin-top:15px;
-    box-shadow:0 0 20px rgba(255,255,255,0.3);
 }
 
 input{
@@ -292,227 +304,6 @@ function restart(){
     video.pause();
     video.currentTime = 0;
 
-    var song = document.getElementById("song");
-    song.pause();
-    song.currentTime = 0;
-
-    document.getElementById("playBtn").innerHTML = "▶";
-    document.getElementById("answer").value = "";
-}
-</script>
-
-</body>
-</html>    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:20px;
-}
-
-.collage img{
-    width:100%;
-    height:100px;
-    object-fit:cover;
-    border-radius:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.collage img:hover{
-    transform:scale(1.05);
-}
-
-/* Popup */
-.modal{
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(0,0,0,0.85);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    visibility:hidden;
-    opacity:0;
-    transition:0.4s;
-    z-index:100;
-}
-.modal.active{
-    visibility:visible;
-    opacity:1;
-}
-.modal img{
-    max-width:85%;
-    max-height:85%;
-    border-radius:20px;
-}
-.close{
-    position:absolute;
-    top:30px;
-    right:30px;
-    font-size:30px;
-    cursor:pointer;
-}
-
-/* Song */
-.song-img{
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    object-fit:cover;
-    margin:20px auto;
-    display:block;
-    box-shadow:0 0 20px rgba(255,255,255,0.3);
-}
-
-.circle-btn{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    background:#ff2e63;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    font-size:28px;
-    margin:15px auto;
-    box-shadow:0 0 20px rgba(255,0,100,0.6);
-}
-
-/* Video */
-.surprise-video{
-    width:100%;
-    max-width:260px;
-    border-radius:15px;
-    margin-top:15px;
-    box-shadow:0 0 20px rgba(255,255,255,0.3);
-}
-
-input{
-    padding:10px;
-    width:80%;
-    border:none;
-    border-radius:20px;
-    text-align:center;
-    margin-top:15px;
-}
-
-</style>
-</head>
-<body>
-
-<!-- PAGE 1 -->
-<div class="card" id="page1">
-    <h2>Happy Valentine's Day Nethra 💕</h2>
-    <p>A small surprise made with love ❤️</p>
-    <button onclick="nextPage(1)">Next ➜</button>
-</div>
-
-<!-- PAGE 2 -->
-<div class="card hidden" id="page2">
-    <h2>Our Beautiful Memories 💖</h2>
-    <div class="collage">
-        <img src="photo4.jpeg" onclick="openModal(this.src)">
-        <img src="photo2.jpeg" onclick="openModal(this.src)">
-        <img src="photo3.jpeg" onclick="openModal(this.src)">
-    </div>
-    <button onclick="nextPage(2)">Next ➜</button>
-</div>
-
-<!-- PAGE 3 -->
-<div class="card hidden" id="page3">
-    <h2>Our Song 🎵</h2>
-    <p>Close your eyes… this one is for you 💕</p>
-
-    <img src="audioimg.jpg" class="song-img">
-    <div class="circle-btn" onclick="toggleSong()" id="playBtn">▶</div>
-
-    <button onclick="nextPage(3)">Next ➜</button>
-</div>
-
-<!-- PAGE 4 -->
-<div class="card hidden" id="page4">
-    <h2>Solve this to get a special gift 💗</h2>
-    <p>What is 5 + 5 ?</p>
-    <input type="text" id="answer">
-    <br>
-    <button onclick="checkAnswer()">Unlock 💌</button>
-</div>
-
-<!-- PAGE 5 -->
-<div class="card hidden" id="page5">
-    <h2>💖 Surprise! 💖</h2>
-
-    <video id="surpriseVideo" loop playsinline class="surprise-video">
-        <source src="video1.mp4" type="video/mp4">
-    </video>
-
-    <p style="margin-top:15px;">
-        I love you forever ❤️
-    </p>
-
-    <button onclick="restart()">Once More ❤️</button>
-</div>
-
-<!-- POPUP -->
-<div class="modal" id="modal">
-    <span class="close" onclick="closeModal()">✖</span>
-    <img id="modalImg">
-</div>
-
-<!-- AUDIO -->
-<audio id="song">
-    <source src="audio.webm" type="audio/webm">
-</audio>
-
-<script>
-function nextPage(page){
-    document.getElementById("page"+page).classList.add("hidden");
-    document.getElementById("page"+(page+1)).classList.remove("hidden");
-
-    if(page + 1 === 5){
-        var video = document.getElementById("surpriseVideo");
-        video.currentTime = 0;
-        video.play();
-    }
-}
-
-function checkAnswer(){
-    if(document.getElementById("answer").value == "10"){
-        nextPage(4);
-    }else{
-        alert("Try again 💔");
-    }
-}
-
-function openModal(src){
-    document.getElementById("modalImg").src = src;
-    document.getElementById("modal").classList.add("active");
-}
-function closeModal(){
-    document.getElementById("modal").classList.remove("active");
-}
-
-function toggleSong(){
-    var song = document.getElementById("song");
-    var btn = document.getElementById("playBtn");
-
-    if(song.paused){
-        song.play();
-        btn.innerHTML = "⏸";
-    }else{
-        song.pause();
-        btn.innerHTML = "▶";
-    }
-}
-
-function restart(){
-    document.getElementById("page5").classList.add("hidden");
-    document.getElementById("page1").classList.remove("hidden");
-
-    // Stop video
-    var video = document.getElementById("surpriseVideo");
-    video.pause();
-    video.currentTime = 0;
-
-    // Stop song
     var song = document.getElementById("song");
     song.pause();
     song.currentTime = 0;
@@ -524,4 +315,3 @@ function restart(){
 
 </body>
 </html>
-
