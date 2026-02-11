@@ -18,12 +18,14 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#8b0d1a;
+    background-image:url(photo1.jpeg);
+    background-size:cover;
+    background-position:center;
     overflow:hidden;
     color:white;
 }
 
-/* Heart Background */
+/* Floating hearts */
 body::before{
     content:"💖 💗 💕 💓 💞 💘 💝 💖 💗 💕 💓 💞 💘 💝";
     position:absolute;
@@ -39,13 +41,13 @@ body::before{
 }
 
 .card{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(10px);
     padding:35px;
     border-radius:20px;
     width:360px;
     text-align:center;
-    box-shadow:0 0 30px rgba(0,0,0,0.3);
+    box-shadow:0 0 30px rgba(0,0,0,0.5);
     animation:fadeIn 0.6s ease;
 }
 
@@ -92,7 +94,7 @@ button:hover{background:#ffdce5;}
     position:fixed;
     top:0; left:0;
     width:100%; height:100%;
-    background:rgba(0,0,0,0.8);
+    background:rgba(0,0,0,0.85);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -106,8 +108,8 @@ button:hover{background:#ffdce5;}
     opacity:1;
 }
 .modal img{
-    max-width:80%;
-    max-height:80%;
+    max-width:85%;
+    max-height:85%;
     border-radius:20px;
 }
 .close{
@@ -149,7 +151,7 @@ button:hover{background:#ffdce5;}
     max-width:260px;
     border-radius:15px;
     margin-top:15px;
-    box-shadow:0 0 20px rgba(255,255,255,0.2);
+    box-shadow:0 0 20px rgba(255,255,255,0.3);
 }
 
 input{
@@ -167,32 +169,31 @@ input{
 
 <!-- PAGE 1 -->
 <div class="card" id="page1">
-    <h2>Happy Valentine's Day 💕</h2>
+    <h2>Happy Valentine's Day Nethra 💕</h2>
     <p>A small surprise made with love ❤️</p>
-    <button onclick="next(1)">Next ➜</button>
+    <button onclick="nextPage(1)">Next ➜</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="card hidden" id="page2">
     <h2>Our Beautiful Memories 💖</h2>
     <div class="collage">
-        <img src="photo4.jpg" onclick="openModal(this.src)">
-        <img src="photo2.jpg" onclick="openModal(this.src)">
-        <img src="photo3.jpg" onclick="openModal(this.src)">
+        <img src="photo4.jpeg" onclick="openModal(this.src)">
+        <img src="photo2.jpeg" onclick="openModal(this.src)">
+        <img src="photo3.jpeg" onclick="openModal(this.src)">
     </div>
-    <button onclick="next(2)">Next ➜</button>
+    <button onclick="nextPage(2)">Next ➜</button>
 </div>
 
-<!-- PAGE 3 - OUR SONG -->
+<!-- PAGE 3 -->
 <div class="card hidden" id="page3">
     <h2>Our Song 🎵</h2>
     <p>Close your eyes… this one is for you 💕</p>
 
-    <img src="album.jpg" class="song-img">
-
+    <img src="audioimg.jpg" class="song-img">
     <div class="circle-btn" onclick="toggleSong()" id="playBtn">▶</div>
 
-    <button onclick="next(3)">Next ➜</button>
+    <button onclick="nextPage(3)">Next ➜</button>
 </div>
 
 <!-- PAGE 4 -->
@@ -208,13 +209,15 @@ input{
 <div class="card hidden" id="page5">
     <h2>💖 Surprise! 💖</h2>
 
-    <video autoplay muted loop playsinline class="surprise-video">
-        <source src="lovevideo.mp4" type="video/mp4">
+    <video id="surpriseVideo" loop playsinline class="surprise-video">
+        <source src="video1.mp4" type="video/mp4">
     </video>
 
     <p style="margin-top:15px;">
         I love you forever ❤️
     </p>
+
+    <button onclick="restart()">Once More ❤️</button>
 </div>
 
 <!-- POPUP -->
@@ -225,18 +228,24 @@ input{
 
 <!-- AUDIO -->
 <audio id="song">
-    <source src="audio.webm" type="audio/mpeg">
+    <source src="audio.webm" type="audio/webm">
 </audio>
 
 <script>
-function next(page){
+function nextPage(page){
     document.getElementById("page"+page).classList.add("hidden");
     document.getElementById("page"+(page+1)).classList.remove("hidden");
+
+    if(page + 1 === 5){
+        var video = document.getElementById("surpriseVideo");
+        video.currentTime = 0;
+        video.play();
+    }
 }
 
 function checkAnswer(){
     if(document.getElementById("answer").value == "10"){
-        next(4);
+        nextPage(4);
     }else{
         alert("Try again 💔");
     }
@@ -250,7 +259,6 @@ function closeModal(){
     document.getElementById("modal").classList.remove("active");
 }
 
-/* SINGLE TOGGLE BUTTON */
 function toggleSong(){
     var song = document.getElementById("song");
     var btn = document.getElementById("playBtn");
@@ -262,6 +270,24 @@ function toggleSong(){
         song.pause();
         btn.innerHTML = "▶";
     }
+}
+
+function restart(){
+    document.getElementById("page5").classList.add("hidden");
+    document.getElementById("page1").classList.remove("hidden");
+
+    // Stop video
+    var video = document.getElementById("surpriseVideo");
+    video.pause();
+    video.currentTime = 0;
+
+    // Stop song
+    var song = document.getElementById("song");
+    song.pause();
+    song.currentTime = 0;
+
+    document.getElementById("playBtn").innerHTML = "▶";
+    document.getElementById("answer").value = "";
 }
 </script>
 
